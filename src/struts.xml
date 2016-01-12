@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<constant name="struts.custom.i18n.resources" value="applicationResource" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	<constant name="struts.multipart.maxSize" value="10701096" />
+
+
+	<package name="index" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="userInterceptor"
+				class="com.survey.interceptor.UserInterceptor" />
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="userInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+		<default-action-ref name="index" />
+		<global-results>
+			<result name="login" type="redirect">/login</result>
+		</global-results>
+		<action name="reg" class="homeAction" method="reg">
+			<result name="input">/reg.jsp</result>
+			<result name="error">/reg.jsp</result>
+			<result name="success" type="redirect">/login</result>
+		</action>
+		<action name="login" class="homeAction" method="login">
+			<result name="input">/login.jsp</result>
+			<result name="error">/login.jsp</result>
+			<result name="success" type="redirect">/index</result>
+		</action>
+		<action name="password" class="homeAction" method="password">
+			<result name="input">/password.jsp</result>
+			<result name="error">/password.jsp</result>
+			<result name="success" type="redirect">/index</result>
+		</action>
+		<action name="logout" class="homeAction" method="logout">
+			<result name="success" type="redirect">/index</result>
+		</action>
+		<action name="index" class="homeAction" method="index">
+			<result>/index.jsp</result>
+			<result name="error">/login.jsp</result>
+		</action>
+		<action name="addSurvey" class="homeAction" method="addSurvey">
+			<result name="input">/addSurvey.jsp</result>
+			<result type="redirect">/index</result>
+		</action>
+		<action name="showQuestion" class="homeAction" method="showQuestion">
+			<result>/showQuestion.jsp</result>
+		</action>
+		<action name="addQuestion" class="homeAction" method="addQuestion">
+			<result name="input">/addQuestion.jsp</result>
+			<result type="redirect">/showQuestion?survey.id=${survey.id}</result>
+		</action>
+		<action name="start" class="homeAction" method="start">
+			<result name="input">/start.jsp</result>
+			<result type="redirect">/index</result>
+		</action>
+		<action name="showAnsweredUser" class="homeAction" method="showAnsweredUser">
+			<result>/showAnsweredUser.jsp</result>
+		</action>
+		<action name="showAnswer" class="homeAction" method="showAnswer">
+			<result>/showAnswer.jsp</result>
+		</action>
+	</package>
+</struts>
